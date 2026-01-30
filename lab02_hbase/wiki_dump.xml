@@ -1,0 +1,26 @@
+<mediawiki>
+  <page>
+    <title>HBase</title>
+    <revision>
+      <id>1</id>
+      <timestamp>2023-01-01T12:00:00Z</timestamp>
+      <contributor>
+        <username>BigDataFan</username>
+      </contributor>
+      <comment>Initial commit</comment>
+      <text>HBase is a column-oriented database.</text>
+    </revision>
+  </page>
+  <page>
+    <title>NoSQL</title>
+    <revision>
+      <id>2</id>
+      <timestamp>2023-01-02T13:00:00Z</timestamp>
+      <contributor>
+        <username>DbAdmin</username>
+      </contributor>
+      <comment>Overview</comment>
+      <text>NoSQL databases provide a mechanism for storage and retrieval of data.</text>
+    </revision>
+  </page>
+</mediawiki>

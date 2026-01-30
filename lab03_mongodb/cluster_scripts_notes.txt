@@ -1,0 +1,44 @@
+// init_replicaset.js
+try {
+    rs.initiate({
+        _id: 'book',
+        members: [
+            { _id: 0, host: 'mongo1:27017' },
+            { _id: 1, host: 'mongo2:27017' },
+            { _id: 2, host: 'mongo3:27017' }
+        ]
+    });
+} catch (e) { print(e); }
+
+// init_configserver.js
+try {
+    rs.initiate({
+        _id: 'configSet',
+        configsvr: true,
+        members: [ { _id: 0, host: 'mongoconfig:27017' } ]
+    });
+} catch (e) { print(e); }
+
+// init_shard1.js
+try {
+    rs.initiate({
+        _id: 'shard1rs',
+        members: [ { _id: 0, host: 'shard1:27017' } ]
+    });
+} catch (e) { print(e); }
+
+// init_shard2.js
+try {
+    rs.initiate({
+        _id: 'shard2rs',
+        members: [ { _id: 0, host: 'shard2:27017' } ]
+    });
+} catch (e) { print(e); }
+
+// init_router.js
+try {
+    sh.addShard('shard1rs/shard1:27017');
+    sh.addShard('shard2rs/shard2:27017');
+    sh.enableSharding('test');
+    sh.shardCollection('test.cities', { name: 1 });
+} catch (e) { print(e); }

@@ -1,0 +1,92 @@
+version: '3.8'
+services:
+  # Replica Set "book"
+  mongo1:
+    image: mongo:6.0
+    container_name: mongo1
+    command: --replSet book --port 27017 --bind_ip_all
+    ports:
+      - "27011:27017" # Map to host port 27011 as per lab
+    networks:
+      - mongo-cluster
+
+  mongo2:
+    image: mongo:6.0
+    container_name: mongo2
+    command: --replSet book --port 27017 --bind_ip_all
+    ports:
+      - "27012:27017"
+    networks:
+      - mongo-cluster
+
+  mongo3:
+    image: mongo:6.0
+    container_name: mongo3
+    command: --replSet book --port 27017 --bind_ip_all
+    ports:
+      - "27013:27017"
+    networks:
+      - mongo-cluster
+
+  # Config Server Replica Set "configSet"
+  mongoconfig:
+    image: mongo:6.0
+    container_name: mongoconfig
+    command: --configsvr --replSet configSet --port 27017 --bind_ip_all
+    ports:
+      - "27016:27017"
+    networks:
+      - mongo-cluster
+
+  # Shards (standalone for simplicity or single node RS)
+  shard1:
+    image: mongo:6.0
+    container_name: shard1
+    command: --shardsvr --replSet shard1rs --port 27017 --bind_ip_all
+    ports:
+      - "27014:27017"
+    networks:
+      - mongo-cluster
+
+  shard2:
+    image: mongo:6.0
+    container_name: shard2
+    command: --shardsvr --replSet shard2rs --port 27017 --bind_ip_all
+    ports:
+      - "27015:27017"
+    networks:
+      - mongo-cluster
+
+  # Mongos Router
+  mongos:
+    image: mongo:6.0
+    container_name: mongos
+    # configdb must point to the config replica set
+    command: mongos --configdb configSet/mongoconfig:27017 --port 27017 --bind_ip_all
+    ports:
+      - "27020:27017"
+    networks:
+      - mongo-cluster
+    depends_on:
+      - mongoconfig
+      - shard1
+      - shard2
+
+  # Setup script container to initialize everything
+  cluster-setup:
+    image: mongo:6.0
+    container_name: cluster-setup
+    networks:
+      - mongo-cluster
+    volumes:
+      - ./:/scripts
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+      - mongoconfig
+      - mongos
+    entrypoint: [ "bash", "-c", "sleep 10 && mongosh --host mongo1 /scripts/init_replicaset.js && mongosh --host mongoconfig /scripts/init_configserver.js && mongosh --host shard1 /scripts/init_shard1.js && mongosh --host shard2 /scripts/init_shard2.js && sleep 10 && mongosh --host mongos /scripts/init_router.js" ]
+
+networks:
+  mongo-cluster:

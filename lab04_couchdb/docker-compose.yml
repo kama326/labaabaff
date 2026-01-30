@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  couchdb1:
+    image: couchdb:3.3
+    container_name: couchdb1
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+      - COUCHDB_SECRET=monster
+      - ERL_FLAGS=-name couchdb@couchdb1
+    volumes:
+      - ./data/couchdb1:/opt/couchdb/data
+      - ./:/scripts
+
+  couchdb2:
+    image: couchdb:3.3
+    container_name: couchdb2
+    ports:
+      - "5985:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+      - COUCHDB_SECRET=monster
+      - ERL_FLAGS=-name couchdb@couchdb2
+    volumes:
+      - ./data/couchdb2:/opt/couchdb/data

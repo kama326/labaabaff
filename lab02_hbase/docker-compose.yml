@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  hbase:
+    image: harisekhon/hbase:latest
+    container_name: nosql_lab_hbase
+    hostname: zookeeper
+    ports:
+      - "16010:16010" # Master UI
+      - "16000:16000" # Master Port
+      - "16020:16020" # RegionServer
+      - "16030:16030" # RegionServer UI
+      - "9090:9090" # Thrift
+      - "8080:8080" # REST
+      - "2181:2181" # Zookeeper
+    environment:
+      HBASE_CONF_hbase_rootdir: "file:///hbase-data"
+      HBASE_MANAGES_ZK: "true"
+    volumes:
+      - ./data:/hbase-data
+      - ./:/scripts
+    command: master

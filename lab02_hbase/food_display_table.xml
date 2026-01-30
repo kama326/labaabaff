@@ -1,0 +1,31 @@
+<Food_Display_Table>
+    <Food_Display_Row>
+        <Food_Code>12345</Food_Code>
+        <Display_Name>Apple, raw</Display_Name>
+        <Portion_Default>1 medium</Portion_Default>
+        <Portion_Amount>.5</Portion_Amount>
+        <Portion_Display_Name>cup slices</Portion_Display_Name>
+        <Factor>.25</Factor>
+        <Increment>.25</Increment>
+        <Multiplier>1</Multiplier>
+        <Grains>.00000</Grains>
+        <Vegetables>.00000</Vegetables>
+        <Fruits>.50000</Fruits>
+        <Milk>.00000</Milk>
+        <Meats>.00000</Meats>
+        <Soy>.00000</Soy>
+        <Drybeans_Peas>.00000</Drybeans_Peas>
+        <Oils>.00000</Oils>
+        <Solid_Fats>0.00000</Solid_Fats>
+        <Added_Sugars>0.00000</Added_Sugars>
+        <Alcohol>0.00000</Alcohol>
+        <Calories>28.87500</Calories>
+        <Saturated_Fats>.01300</Saturated_Fats>
+    </Food_Display_Row>
+    <Food_Display_Row>
+        <Food_Code>67890</Food_Code>
+        <Display_Name>Banana, raw</Display_Name>
+        <Portion_Default>1 medium</Portion_Default>
+        <Calories>105.0</Calories>
+    </Food_Display_Row>
+</Food_Display_Table>
