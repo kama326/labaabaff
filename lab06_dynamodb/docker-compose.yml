@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: nosql_lab_dynamodb
+    ports:
+      - "8001:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb"
+    volumes:
+      - ./data:/home/dynamodblocal/data
+      - ./:/scripts
+
+  aws-cli:
+    image: amazon/aws-cli
+    volumes:
+      - ./:/scripts
+    environment:
+      - AWS_ACCESS_KEY_ID=fake
+      - AWS_SECRET_ACCESS_KEY=fake
+    entrypoint: /bin/sh
+    tty: true
+
+  node-worker:
+    image: node:18-alpine
+    volumes:
+      - ./:/scripts
+    working_dir: /scripts
+    entrypoint: /bin/sh
+    tty: true
